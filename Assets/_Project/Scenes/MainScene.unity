@@ -368,7 +368,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 544614237}
-  - component: {fileID: 544614239}
+  - component: {fileID: 544614240}
   - component: {fileID: 544614238}
   m_Layer: 5
   m_Name: GridContainer
@@ -419,8 +419,8 @@ MonoBehaviour:
   m_CellSize: {x: 100, y: 100}
   m_Spacing: {x: 0, y: 0}
   m_Constraint: 1
-  m_ConstraintCount: 2
---- !u!114 &544614239
+  m_ConstraintCount: 3
+--- !u!114 &544614240
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -429,13 +429,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 544614236}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6383ceb58cf66c24c82483462ed70f9b, type: 3}
+  m_Script: {fileID: 11500000, guid: c308d0e157c4f04448e623d67b37cf10, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GridSystem
-  cellPrefab: {fileID: 4846151860010736415, guid: c7e30dc0c4c605e43a78c78f334869ec, type: 3}
+  m_EditorClassIdentifier: Assembly-CSharp::GridManager
+  cellPrefab: {fileID: 7183139937811294408, guid: 27351172d8a7eab46ac437ac3b5c5752, type: 3}
   mainFrameRect: {fileID: 1831792722}
   cols: 5
-  rows: 8
+  rows: 5
+  knoxs:
+  - coordX: 0
+    coordY: 0
+    knoxColorType: 1
+  - coordX: 1
+    coordY: 4
+    knoxColorType: 1
+  - coordX: 2
+    coordY: 0
+    knoxColorType: 2
+  - coordX: 1
+    coordY: 3
+    knoxColorType: 2
+  - coordX: 4
+    coordY: 0
+    knoxColorType: 4
+  - coordX: 3
+    coordY: 3
+    knoxColorType: 4
+  - coordX: 2
+    coordY: 1
+    knoxColorType: 3
+  - coordX: 2
+    coordY: 4
+    knoxColorType: 3
+  - coordX: 4
+    coordY: 1
+    knoxColorType: 5
+  - coordX: 3
+    coordY: 4
+    knoxColorType: 5
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
