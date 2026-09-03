@@ -11,7 +11,6 @@ public enum Direction
     None, Up, Down, Left, Right
 }
 
-[System.Serializable]
 public struct CellSnapshot
 {
     public Cell cell;
