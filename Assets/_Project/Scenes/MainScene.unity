@@ -467,6 +467,10 @@ MonoBehaviour:
   - coordX: 3
     coordY: 4
     knoxColorType: 5
+  undoSnapshot:
+    knoxType: 0
+    path: []
+    wasConnected: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public enum CellType
 {
-    None, Knox, TempKnox
+    None, Knox, TempKnox, Pipe
 }
 
 public enum Direction
@@ -11,6 +11,7 @@ public enum Direction
     None, Up, Down, Left, Right
 }
 
+[System.Serializable]
 public struct CellSnapshot
 {
     public Cell cell;
@@ -112,6 +113,9 @@ public class Cell : MonoBehaviour
             centerFillImg.gameObject.SetActive(showCenter);
             if (showCenter && color != null)
                 centerFillImg.color = color;
+
+            if (cellType != CellType.Knox && cellType != CellType.TempKnox)
+                cellType = active ? CellType.Pipe : CellType.None;
         }
     }
 
@@ -122,14 +126,13 @@ public class Cell : MonoBehaviour
         lineLeftImg.gameObject.SetActive(false);
         lineRightImg.gameObject.SetActive(false);
         centerFillImg.gameObject.SetActive(false);
+
+        if (cellType == CellType.Pipe)
+            cellType = CellType.None;
     }
 
     public void RestoreCell(CellSnapshot cellSnapshot)
     {
-        cellType = cellSnapshot.cellType;
-        if (cellType == CellType.TempKnox)
-            SetupTempKnox(cellSnapshot.isOccupiedCell);
-
         IsOccupiedCell = cellSnapshot.isOccupiedCell;
         SetConnection(Direction.Up, cellSnapshot.isLineUpActive, cellSnapshot.isLineUpActive ? cellSnapshot.isOccupiedCell : KnoxColorType.None);
         SetConnection(Direction.Down, cellSnapshot.isLineDownActive, cellSnapshot.isLineDownActive ? cellSnapshot.isOccupiedCell : KnoxColorType.None);
@@ -140,6 +143,16 @@ public class Cell : MonoBehaviour
             Color color = GetColorByType(cellSnapshot.isOccupiedCell);
             centerFillImg.color = color;
         }
+
+        cellType = cellSnapshot.cellType;
+        if (cellType == CellType.TempKnox)
+            SetupTempKnox(cellSnapshot.isOccupiedCell);
+    }
+
+    public void EnableTempKnoxUI(bool enabled, KnoxColorType knoxColorType)
+    {
+        tempKnoxImg.color = GetColorByType(knoxColorType);
+        tempKnoxImg.gameObject.SetActive(enabled);
     }
 
     private Color GetColorByType(KnoxColorType knoxColorType)
