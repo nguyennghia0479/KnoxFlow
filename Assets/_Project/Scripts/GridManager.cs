@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -17,6 +19,7 @@ public struct KnoxInfo
     public KnoxColorType knoxColorType;
 }
 
+[System.Serializable]
 public struct UndoSnapshot
 {
     public KnoxColorType knoxType;
@@ -45,7 +48,7 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
     private bool isDragging;
     private bool isCompleted;
     private bool canUndo;
-    private UndoSnapshot undoSnapshot;
+    public List<UndoSnapshot> undoSnapshots;
 
     private void Awake()
     {
@@ -66,7 +69,7 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
             ResetLevel();
 
         if (Keyboard.current.uKey.wasPressedThisFrame)
-            UndoPath();
+            UndoPaths();
     }
 
     private void SetupGridLayoutGroup()
@@ -114,16 +117,15 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         if (isCompleted) return;
 
         Cell startCell = GetCellUnderPointer(eventData);
-        if (startCell == null || (startCell.CellType != CellType.Knox && startCell.CellType != CellType.TempKnox))
+        if (startCell == null || (startCell.CellType != CellType.Knox && startCell.CellType != CellType.TempKnox && startCell.CellType != CellType.Pipe))
             return;
 
         isDragging = true;
-        KnoxColorType newKnox = startCell.KnoxColorType;
+        KnoxColorType newKnox = startCell.CellType == CellType.Pipe ? startCell.IsOccupiedCell : startCell.KnoxColorType;
         if (!knoxDict.ContainsKey(newKnox))
-        {
             knoxDict[newKnox] = new List<Cell>();
-        }
 
+        undoSnapshots.Clear();
         CaptureUndoSnapshot(newKnox, knoxDict[newKnox]);
         currentKnox = newKnox;
         currentPath = knoxDict[currentKnox];
@@ -137,7 +139,43 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         else if (startCell.CellType == CellType.TempKnox)
         {
             startCell.ClearTempKnox();
+            startCell.EnableTempKnoxUI(true, currentKnox);
         }
+        else if (startCell.CellType == CellType.Pipe)
+        {
+            RemoveCell(startCell, currentPath, currentKnox);
+        }
+    }
+
+    private void RemoveCell(Cell startCell, List<Cell> currentPath, KnoxColorType currentKnox)
+    {
+        int index = currentPath.IndexOf(startCell);
+        for (int i = currentPath.Count - 1; i > index; i--)
+            ClearCell(currentPath[i]);
+
+        int removeCount = currentPath.Count - (index + 1);
+        if (removeCount > 0)
+            currentPath.RemoveRange(index + 1, removeCount);
+
+        Cell previousCell = currentPath[index - 1];
+        startCell.ClearAllConnections();
+        int coordX = startCell.CoordX - previousCell.CoordX;
+        int coordY = startCell.CoordY - previousCell.CoordY;
+
+        if (coordX > 0)
+            startCell.SetConnection(Direction.Left, true, currentKnox);
+        else if (coordX < 0)
+            startCell.SetConnection(Direction.Right, true, currentKnox);
+
+        if (coordY > 0)
+            startCell.SetConnection(Direction.Up, true, currentKnox);
+        else if (coordY < 0)
+            startCell.SetConnection(Direction.Down, true, currentKnox);
+
+        if (connectedKnoxs.Contains(currentKnox))
+            connectedKnoxs.Remove(currentKnox);
+
+        startCell.EnableTempKnoxUI(true, currentKnox);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -150,22 +188,43 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
 
         Cell lastCell = currentPath[^1];
         if (lastCell == currentCell) return;
-
+       
         if (!currentPath.Contains(currentCell) && IsAdjacent(lastCell, currentCell))
         {
-            bool isCellOccupied = currentCell.CellType == CellType.None && currentCell.IsOccupiedCell == KnoxColorType.None;
+            bool isCellFree = currentCell.CellType == CellType.None && currentCell.IsOccupiedCell == KnoxColorType.None;
             bool isValidKnox = currentCell.CellType == CellType.Knox && currentCell.KnoxColorType == currentKnox;
 
-            if (!isCellOccupied && !isValidKnox) return;
+            if (!isCellFree && !isValidKnox)
+            {
+                if (currentCell.CellType == CellType.Knox) return;
 
-            Direction dirFromLastToCurrent = GetDirection(lastCell, currentCell);
-            Direction dirFromCurrentToLast = GetOppositeDirection(dirFromLastToCurrent);
+                KnoxColorType affectedKnox = currentCell.IsOccupiedCell;
+                List<Cell> affectedPath = knoxDict[currentCell.IsOccupiedCell];
+                CaptureUndoSnapshot(affectedKnox, affectedPath);
 
-            lastCell.SetConnection(dirFromLastToCurrent, true, currentKnox);
-            currentCell.SetConnection(dirFromCurrentToLast, true, currentKnox);
+                int previousIndex = affectedPath.IndexOf(currentCell) - 1;
+                if (previousIndex > 0)
+                {
+                    Cell affectedCell = affectedPath[previousIndex];
+                    RemoveCell(affectedCell, affectedPath, currentCell.IsOccupiedCell);
+                    affectedCell.SetupTempKnox(affectedKnox);
+                }
+                else
+                    ClearCurrentPath(affectedPath);
+            }
+            else
+            {
+                Direction dirFromLastToCurrent = GetDirection(lastCell, currentCell);
+                Direction dirFromCurrentToLast = GetOppositeDirection(dirFromLastToCurrent);
 
-            currentCell.IsOccupiedCell = currentKnox;
-            currentPath.Add(currentCell);
+                lastCell.EnableTempKnoxUI(false, KnoxColorType.None);
+                currentCell.EnableTempKnoxUI(true, currentKnox);
+                lastCell.SetConnection(dirFromLastToCurrent, true, currentKnox);
+                currentCell.SetConnection(dirFromCurrentToLast, true, currentKnox);
+
+                currentCell.IsOccupiedCell = currentKnox;
+                currentPath.Add(currentCell);
+            }
 
             if (currentCell.CellType == CellType.Knox && currentCell.KnoxColorType == currentKnox && currentCell != currentPath[0])
             {
@@ -184,6 +243,8 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
             Direction dirFromLastToCurrent = GetDirection(lastCell, currentCell);
             Direction dirFromCurrentToLast = GetOppositeDirection(dirFromLastToCurrent);
 
+            lastCell.EnableTempKnoxUI(false, KnoxColorType.None);
+            currentCell.EnableTempKnoxUI(true, currentKnox);
             lastCell.SetConnection(dirFromLastToCurrent, false, KnoxColorType.None);
             currentCell.SetConnection(dirFromCurrentToLast, false, KnoxColorType.None);
 
@@ -198,7 +259,7 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
     {
         if (!isDragging) return;
 
-        canUndo = currentPath.Count != undoSnapshot.path.Count;
+        canUndo = CanUndo();
         isDragging = false;
 
         if (currentPath == null || currentPath.Count <= 1)
@@ -208,7 +269,7 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         }
 
         Cell lastCell = currentPath[^1];
-        if (lastCell.CellType != CellType.Knox)
+        if (lastCell.CellType != CellType.Knox && lastCell.IsOccupiedCell != KnoxColorType.None)
             lastCell.SetupTempKnox(currentKnox);
     }
 
@@ -259,6 +320,9 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
 
     private void ClearCurrentPath(List<Cell> currentPath)
     {
+        if (currentPath == null || currentPath.Count <= 0) return;
+
+        KnoxColorType currentKnox = currentPath[0].KnoxColorType;
         foreach (var cell in currentPath)
             ClearCell(cell);
 
@@ -291,17 +355,51 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         }
     }
 
+    private bool CanUndo()
+    {
+        foreach (var undoSnapshot in undoSnapshots)
+        {
+            List<Cell> currentPath = knoxDict[undoSnapshot.knoxType];
+
+            if (currentPath.Count != undoSnapshot.path.Count)
+                return true;
+
+            for (int i = 0; i < undoSnapshot.path.Count; i++)
+            {
+                if (currentPath[i] != undoSnapshot.path[i].cell)
+                    return true;
+            }
+
+            bool hasConnected = connectedKnoxs.Contains(undoSnapshot.knoxType);
+            if (hasConnected != undoSnapshot.wasConnected)
+                return true;
+        }
+
+        return false;
+    }
+
     private void CaptureUndoSnapshot(KnoxColorType currentKnox, List<Cell> currentPath)
     {
         if (currentPath == null) return;
 
-        undoSnapshot.knoxType = currentKnox;
-        undoSnapshot.wasConnected = connectedKnoxs.Contains(currentKnox);
-        undoSnapshot.path.Clear();
+        if (undoSnapshots.Any(x => x.knoxType == currentKnox)) return;
 
-        foreach (var cell in currentPath)
+        UndoSnapshot undoSnapshot = new()
         {
-            undoSnapshot.path.Add(new CellSnapshot
+            knoxType = currentKnox,
+            wasConnected = connectedKnoxs.Contains(currentKnox),
+            path = CreateCellSnapshots(currentPath)
+        };
+
+        undoSnapshots.Add(undoSnapshot);
+    }
+
+    private List<CellSnapshot> CreateCellSnapshots(List<Cell> path)
+    {
+        List<CellSnapshot> cellSnapshotPath = new();
+        foreach (var cell in path)
+        {
+            CellSnapshot cellSnapshot = new()
             {
                 cell = cell,
                 cellType = cell.CellType,
@@ -310,15 +408,29 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
                 isLineDownActive = cell.IsLineDownActve,
                 isLineLeftActive = cell.IsLineLeftActive,
                 isLineRightActive = cell.IsLineRightActive
-            });
+            };
+            cellSnapshotPath.Add(cellSnapshot);
         }
+
+        return cellSnapshotPath;
     }
 
-    private void UndoPath()
+    private void UndoPaths()
     {
         if (!canUndo || isCompleted) return;
-        canUndo = false;
 
+        foreach (var undoSnapshot in undoSnapshots)
+            UndoPath(undoSnapshot);
+
+        undoSnapshots.Clear();
+        canUndo = false;
+    }
+
+    private void UndoPath(UndoSnapshot undoSnapshot)
+    {
+        if (!canUndo || isCompleted) return;
+        
+        List<Cell> currentPath = knoxDict[undoSnapshot.knoxType];
         if (undoSnapshot.path.Count == 0)
         {
             ClearCurrentPath(currentPath);
