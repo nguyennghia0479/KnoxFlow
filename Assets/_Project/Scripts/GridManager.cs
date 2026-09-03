@@ -19,7 +19,6 @@ public struct KnoxInfo
     public KnoxColorType knoxColorType;
 }
 
-[System.Serializable]
 public struct UndoSnapshot
 {
     public KnoxColorType knoxType;
@@ -48,7 +47,7 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
     private bool isDragging;
     private bool isCompleted;
     private bool canUndo;
-    public List<UndoSnapshot> undoSnapshots;
+    private List<UndoSnapshot> undoSnapshots = new();
 
     private void Awake()
     {
@@ -142,12 +141,10 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
             startCell.EnableTempKnoxUI(true, currentKnox);
         }
         else if (startCell.CellType == CellType.Pipe)
-        {
-            RemoveCell(startCell, currentPath, currentKnox);
-        }
+            RemoveAffectedCells(startCell, currentPath, currentKnox);
     }
 
-    private void RemoveCell(Cell startCell, List<Cell> currentPath, KnoxColorType currentKnox)
+    private void RemoveAffectedCells(Cell startCell, List<Cell> currentPath, KnoxColorType currentKnox)
     {
         int index = currentPath.IndexOf(startCell);
         for (int i = currentPath.Count - 1; i > index; i--)
@@ -191,67 +188,82 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
        
         if (!currentPath.Contains(currentCell) && IsAdjacent(lastCell, currentCell))
         {
-            bool isCellFree = currentCell.CellType == CellType.None && currentCell.IsOccupiedCell == KnoxColorType.None;
-            bool isValidKnox = currentCell.CellType == CellType.Knox && currentCell.KnoxColorType == currentKnox;
+            if (!OnDragForward(currentCell, lastCell)) return;
 
-            if (!isCellFree && !isValidKnox)
-            {
-                if (currentCell.CellType == CellType.Knox) return;
-
-                KnoxColorType affectedKnox = currentCell.IsOccupiedCell;
-                List<Cell> affectedPath = knoxDict[currentCell.IsOccupiedCell];
-                CaptureUndoSnapshot(affectedKnox, affectedPath);
-
-                int previousIndex = affectedPath.IndexOf(currentCell) - 1;
-                if (previousIndex > 0)
-                {
-                    Cell affectedCell = affectedPath[previousIndex];
-                    RemoveCell(affectedCell, affectedPath, currentCell.IsOccupiedCell);
-                    affectedCell.SetupTempKnox(affectedKnox);
-                }
-                else
-                    ClearCurrentPath(affectedPath);
-            }
-            else
-            {
-                Direction dirFromLastToCurrent = GetDirection(lastCell, currentCell);
-                Direction dirFromCurrentToLast = GetOppositeDirection(dirFromLastToCurrent);
-
-                lastCell.EnableTempKnoxUI(false, KnoxColorType.None);
-                currentCell.EnableTempKnoxUI(true, currentKnox);
-                lastCell.SetConnection(dirFromLastToCurrent, true, currentKnox);
-                currentCell.SetConnection(dirFromCurrentToLast, true, currentKnox);
-
-                currentCell.IsOccupiedCell = currentKnox;
-                currentPath.Add(currentCell);
-            }
-
-            if (currentCell.CellType == CellType.Knox && currentCell.KnoxColorType == currentKnox && currentCell != currentPath[0])
-            {
-                canUndo = true;
-                isDragging = false;
-                connectedKnoxs.Add(currentKnox);
-                if (connectedKnoxs.Count == knoxs.Length / 2)
-                {
-                    isCompleted = true;
-                    Debug.Log("Completed Level");
-                }
-            }
+            CheckLevelComplete(currentCell);
         }
         else if (currentPath.Count > 1 && currentCell == currentPath[^2])
+            OnDragBackward(currentCell, lastCell);
+    }
+
+    private bool OnDragForward(Cell currentCell, Cell lastCell)
+    {
+        bool isCellFree = currentCell.CellType == CellType.None && currentCell.IsOccupiedCell == KnoxColorType.None;
+        bool isValidKnox = currentCell.CellType == CellType.Knox && currentCell.KnoxColorType == currentKnox;
+
+        if (!isCellFree && !isValidKnox)
+        {
+            if (currentCell.CellType == CellType.Knox) return false;
+
+            KnoxColorType affectedKnox = currentCell.IsOccupiedCell;
+            List<Cell> affectedPath = knoxDict[currentCell.IsOccupiedCell];
+            CaptureUndoSnapshot(affectedKnox, affectedPath);
+
+            int previousIndex = affectedPath.IndexOf(currentCell) - 1;
+            if (previousIndex > 0)
+            {
+                Cell affectedCell = affectedPath[previousIndex];
+                RemoveAffectedCells(affectedCell, affectedPath, currentCell.IsOccupiedCell);
+                affectedCell.SetupTempKnox(affectedKnox);
+            }
+            else
+                ClearCurrentPath(affectedPath);
+        }
+        else
         {
             Direction dirFromLastToCurrent = GetDirection(lastCell, currentCell);
             Direction dirFromCurrentToLast = GetOppositeDirection(dirFromLastToCurrent);
 
             lastCell.EnableTempKnoxUI(false, KnoxColorType.None);
             currentCell.EnableTempKnoxUI(true, currentKnox);
-            lastCell.SetConnection(dirFromLastToCurrent, false, KnoxColorType.None);
-            currentCell.SetConnection(dirFromCurrentToLast, false, KnoxColorType.None);
+            lastCell.SetConnection(dirFromLastToCurrent, true, currentKnox);
+            currentCell.SetConnection(dirFromCurrentToLast, true, currentKnox);
 
-            if (lastCell.CellType == CellType.None)
-                lastCell.IsOccupiedCell = KnoxColorType.None;
+            currentCell.IsOccupiedCell = currentKnox;
+            currentPath.Add(currentCell);
+        }
 
-            currentPath.RemoveAt(currentPath.Count - 1);
+        return true;
+    }
+
+    private void OnDragBackward(Cell currentCell, Cell lastCell)
+    {
+        Direction dirFromLastToCurrent = GetDirection(lastCell, currentCell);
+        Direction dirFromCurrentToLast = GetOppositeDirection(dirFromLastToCurrent);
+
+        lastCell.EnableTempKnoxUI(false, KnoxColorType.None);
+        currentCell.EnableTempKnoxUI(true, currentKnox);
+        lastCell.SetConnection(dirFromLastToCurrent, false, KnoxColorType.None);
+        currentCell.SetConnection(dirFromCurrentToLast, false, KnoxColorType.None);
+
+        if (lastCell.CellType == CellType.None)
+            lastCell.IsOccupiedCell = KnoxColorType.None;
+
+        currentPath.RemoveAt(currentPath.Count - 1);
+    }
+
+    private void CheckLevelComplete(Cell currentCell)
+    {
+        if (currentCell.CellType == CellType.Knox && currentCell.KnoxColorType == currentKnox && currentCell != currentPath[0])
+        {
+            canUndo = true;
+            isDragging = false;
+            connectedKnoxs.Add(currentKnox);
+            if (connectedKnoxs.Count == knoxs.Length / 2)
+            {
+                isCompleted = true;
+                Debug.Log("Completed Level");
+            }
         }
     }
 
@@ -348,6 +360,7 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         isCompleted = false;
         currentKnox = KnoxColorType.None;
         connectedKnoxs.Clear();
+        undoSnapshots.Clear();
         foreach (var knox in knoxDict)
         {
             currentPath = knox.Value;
