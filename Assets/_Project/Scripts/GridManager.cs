@@ -1,23 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-
-public enum KnoxColorType
-{
-    None, Red, Green, Blue, Yellow, Orange
-}
-
-[System.Serializable]
-public struct KnoxInfo
-{
-    public int coordX;
-    public int coordY;
-    public KnoxColorType knoxColorType;
-}
 
 public struct UndoSnapshot
 {
@@ -31,11 +17,10 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
     [Header("Grid Layout Info")]
     [SerializeField] private Cell cellPrefab;
     [SerializeField] private RectTransform mainFrameRect;
-    [SerializeField] private int cols;
-    [SerializeField] private int rows;
-    [Space]
-    [SerializeField] private KnoxInfo[] knoxs;
 
+    private int cols;
+    private int rows;
+    private KnoxInfo[] knoxs;
     private GridLayoutGroup gridLayoutGroup;
     private float cellSize;
     private Cell[,] gridData;
@@ -55,11 +40,14 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         raycaster = GetComponentInParent<GraphicRaycaster>();
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        SetupGridLayoutGroup();
-        GenerateGrid();
-        GenerateKnoxs();
+        GameEvents.OnLevelLoaded += HandleLevelLoaded;
+    }
+
+    private void OnDisable()
+    {
+        GameEvents.OnLevelLoaded -= HandleLevelLoaded;
     }
 
     private void Update()
@@ -69,6 +57,34 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
 
         if (Keyboard.current.uKey.wasPressedThisFrame)
             UndoPaths();
+    }
+
+    private void HandleLevelLoaded(LevelSO leveSO)
+    {
+        cols = leveSO.Cols;
+        rows = leveSO.Rows;
+        knoxs = leveSO.Knoxs;
+
+        ResetGrid();
+        SetupGridLayoutGroup();
+        GenerateGrid();
+        GenerateKnoxs();
+    }
+
+    private void ResetGrid()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+            Destroy(transform.GetChild(i).gameObject);
+
+        gridData = null;
+        currentKnox = KnoxColorType.None;
+        connectedKnoxs.Clear();
+        knoxDict.Clear();
+        currentPath.Clear();
+        undoSnapshots.Clear();
+        isDragging = false;
+        isCompleted = false;
+        canUndo = false;
     }
 
     private void SetupGridLayoutGroup()
@@ -185,7 +201,7 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
 
         Cell lastCell = currentPath[^1];
         if (lastCell == currentCell) return;
-       
+
         if (!currentPath.Contains(currentCell) && IsAdjacent(lastCell, currentCell))
         {
             if (!OnDragForward(currentCell, lastCell)) return;
@@ -262,7 +278,7 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
             if (connectedKnoxs.Count == knoxs.Length / 2)
             {
                 isCompleted = true;
-                Debug.Log("Completed Level");
+                GameEvents.RaiseLevelCompleted();
             }
         }
     }
@@ -442,7 +458,7 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
     private void UndoPath(UndoSnapshot undoSnapshot)
     {
         if (!canUndo || isCompleted) return;
-        
+
         List<Cell> currentPath = knoxDict[undoSnapshot.knoxType];
         if (undoSnapshot.path.Count == 0)
         {
