@@ -434,43 +434,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GridManager
   cellPrefab: {fileID: 7183139937811294408, guid: 27351172d8a7eab46ac437ac3b5c5752, type: 3}
   mainFrameRect: {fileID: 1831792722}
-  cols: 5
-  rows: 5
-  knoxs:
-  - coordX: 0
-    coordY: 0
-    knoxColorType: 1
-  - coordX: 1
-    coordY: 4
-    knoxColorType: 1
-  - coordX: 2
-    coordY: 0
-    knoxColorType: 2
-  - coordX: 1
-    coordY: 3
-    knoxColorType: 2
-  - coordX: 4
-    coordY: 0
-    knoxColorType: 4
-  - coordX: 3
-    coordY: 3
-    knoxColorType: 4
-  - coordX: 2
-    coordY: 1
-    knoxColorType: 3
-  - coordX: 2
-    coordY: 4
-    knoxColorType: 3
-  - coordX: 4
-    coordY: 1
-    knoxColorType: 5
-  - coordX: 3
-    coordY: 4
-    knoxColorType: 5
-  undoSnapshot:
-    knoxType: 0
-    path: []
-    wasConnected: 0
 --- !u!1 &619394800
 GameObject:
   m_ObjectHideFlags: 0
@@ -549,6 +512,10 @@ MonoBehaviour:
     RefIds:
     - rid: -2
       type: {class: , ns: , asm: }
+    - rid: 6038329935263170648
+      type: {class: 'Provider2DCache`1[[UnityEngine.Rendering.Universal.Light2DProvider, Unity.RenderPipelines.Universal.2D.Runtime]]', ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
+      data:
+        m_Cache: []
     - rid: 7056445260670959616
       type: {class: Light2DProviderSources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.2D.Runtime}
       data:
@@ -556,7 +523,7 @@ MonoBehaviour:
         m_SelectedSource:
           rid: -2
         m_Provider2DCache:
-          rid: -2
+          rid: 6038329935263170648
 --- !u!4 &619394802
 Transform:
   m_ObjectHideFlags: 0
@@ -564,6 +531,53 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 619394800}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &951023498
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 951023500}
+  - component: {fileID: 951023499}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &951023499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951023498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: add94f0eb578b614db1f3386a34c7893, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LevelManager
+  stageLevels:
+  - {fileID: 11400000, guid: ac4ca99f5e48a2349a6cf5de1815f668, type: 2}
+  - {fileID: 11400000, guid: b5304a65e77cbda4ba8e8030eb30aa7f, type: 2}
+--- !u!4 &951023500
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 951023498}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -693,5 +707,6 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 619394802}
+  - {fileID: 951023500}
   - {fileID: 319013807}
   - {fileID: 1720831193}

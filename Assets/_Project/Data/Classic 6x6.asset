@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26bc14d51670e934d9bda7df148641f0, type: 3}
+  m_Name: Classic 6x6
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDatabaseSO
+  stageName: Classic
+  levelSOs:
+  - {fileID: 11400000, guid: 8cfa8c2586eca9041ae6db7818a70784, type: 2}
+  - {fileID: 11400000, guid: dee1cda82d5b99d47b13dd0791e69b8c, type: 2}
+  - {fileID: 11400000, guid: 38843a359094e4c478ac85c36d5555e9, type: 2}

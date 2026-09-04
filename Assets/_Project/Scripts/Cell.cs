@@ -163,6 +163,7 @@ public class Cell : MonoBehaviour
             KnoxColorType.Blue => Color.blue,
             KnoxColorType.Yellow => Color.yellow,
             KnoxColorType.Orange => Color.orange,
+            KnoxColorType.Cyan => Color.cyan,
             _ => Color.black,
         };
     }
