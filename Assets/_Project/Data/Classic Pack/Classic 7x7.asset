@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26bc14d51670e934d9bda7df148641f0, type: 3}
+  m_Name: Classic 7x7
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDatabaseSO
+  stageName: Classic 7x7
+  levelSOs:
+  - {fileID: 11400000, guid: 9ffa25ac7c8eb7d4794662d026f84d59, type: 2}
+  - {fileID: 11400000, guid: a3d150e092c5c6a47a22b75973d95cfe, type: 2}
+  - {fileID: 11400000, guid: c45cf1aac5498394aafc47eda07aa922, type: 2}
+  - {fileID: 11400000, guid: 4946e3c1cb40f124cae55db9ea9638bf, type: 2}
+  - {fileID: 11400000, guid: 3a7ff24b98b7668448f6d827c13b7e32, type: 2}
+  - {fileID: 11400000, guid: 2ac66a567f728504c8ca15643d6b6c58, type: 2}
+  - {fileID: 11400000, guid: 7ce066f332486534a9995ca1c9d5d5d6, type: 2}
+  - {fileID: 11400000, guid: cf7668185dbd71d439e4407cea3a8982, type: 2}
+  - {fileID: 11400000, guid: 0d4e16484c09056418bce425fb5decb3, type: 2}
+  - {fileID: 11400000, guid: 4f3a92d39b0cf9248b6b28ae7d1dd520, type: 2}

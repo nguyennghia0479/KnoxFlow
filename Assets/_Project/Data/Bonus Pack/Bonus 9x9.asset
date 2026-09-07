@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26bc14d51670e934d9bda7df148641f0, type: 3}
+  m_Name: Bonus 9x9
+  m_EditorClassIdentifier: Assembly-CSharp::LevelStageSO
+  stageName: Bonus 9x9
+  levelSOs:
+  - {fileID: 11400000, guid: 4d88c95f467bb1a4c81e305f1fd00a11, type: 2}
+  - {fileID: 11400000, guid: 95d8c8d791595eb458097bd3200c6511, type: 2}
+  - {fileID: 11400000, guid: 5ae766070e9b9404491a0713c11d3278, type: 2}
+  - {fileID: 11400000, guid: c7e5e88286d23cb4b8e86f23a9aada94, type: 2}
+  - {fileID: 11400000, guid: de51ea2aaa5ef22469b79bb1b11f7e0c, type: 2}
+  - {fileID: 11400000, guid: 95156fbfd9eeb394e978e451a65f3878, type: 2}
+  - {fileID: 11400000, guid: 9855b20da14656b48a45b6c248182fc9, type: 2}
+  - {fileID: 11400000, guid: 1eb07acdd4ccf77448e6965e0bc0f685, type: 2}
+  - {fileID: 11400000, guid: 06496cff8b66cca4bb2b96289584499a, type: 2}
+  - {fileID: 11400000, guid: a3f3cebe3768fc949899f5b34cb8a08d, type: 2}

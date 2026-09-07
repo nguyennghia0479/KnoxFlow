@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    [SerializeField] private LevelDatabaseSO[] stageLevels;
+    [SerializeField] private LevelStageSO[] stageLevels;
 
-    private LevelDatabaseSO currentStage;
+    private LevelStageSO currentStage;
     private int currentStageIdx;
     private LevelSO currentLevel;
     private int currentLevelIdx;
