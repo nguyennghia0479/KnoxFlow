@@ -70,7 +70,7 @@ public class Cell : MonoBehaviour
     public void SetupKnox(KnoxColorType knoxColorType)
     {
         this.knoxColorType = knoxColorType;
-        knoxImg.color = GetColorByType(knoxColorType);
+        knoxImg.color = HelperUtility.GetColorByType(knoxColorType);
         knoxImg.gameObject.SetActive(true);
         cellType = CellType.Knox;
     }
@@ -78,7 +78,7 @@ public class Cell : MonoBehaviour
     public void SetupTempKnox(KnoxColorType knoxColorType)
     {
         this.knoxColorType = knoxColorType;
-        tempKnoxImg.color = GetColorByType(knoxColorType);
+        tempKnoxImg.color = HelperUtility.GetColorByType(knoxColorType);
         tempKnoxImg.gameObject.SetActive(true);
         cellType = CellType.TempKnox;
     }
@@ -103,7 +103,7 @@ public class Cell : MonoBehaviour
 
         if (targetLine != null)
         {
-            Color color = GetColorByType(knoxColorType);
+            Color color = HelperUtility.GetColorByType(knoxColorType);
             targetLine.gameObject.SetActive(active);
             if (active && color != null)
                 targetLine.color = color;
@@ -139,7 +139,7 @@ public class Cell : MonoBehaviour
         SetConnection(Direction.Right, cellSnapshot.isLineRightActive, cellSnapshot.isLineRightActive ? cellSnapshot.isOccupiedCell : KnoxColorType.None);
         if (centerFillImg.gameObject.activeSelf)
         {
-            Color color = GetColorByType(cellSnapshot.isOccupiedCell);
+            Color color = HelperUtility.GetColorByType(cellSnapshot.isOccupiedCell);
             centerFillImg.color = color;
         }
 
@@ -150,23 +150,11 @@ public class Cell : MonoBehaviour
 
     public void EnableTempKnoxUI(bool enabled, KnoxColorType knoxColorType)
     {
-        tempKnoxImg.color = GetColorByType(knoxColorType);
+        tempKnoxImg.color = HelperUtility.GetColorByType(knoxColorType);
         tempKnoxImg.gameObject.SetActive(enabled);
     }
 
-    private Color GetColorByType(KnoxColorType knoxColorType)
-    {
-        return knoxColorType switch
-        {
-            KnoxColorType.Red => Color.red,
-            KnoxColorType.Green => Color.green,
-            KnoxColorType.Blue => Color.blue,
-            KnoxColorType.Yellow => Color.yellow,
-            KnoxColorType.Orange => Color.orange,
-            KnoxColorType.Cyan => Color.cyan,
-            _ => Color.black,
-        };
-    }
+    
 
     private bool IsCorner()
     {

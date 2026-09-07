@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26bc14d51670e934d9bda7df148641f0, type: 3}
+  m_Name: Classic 9x9
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDatabaseSO
+  stageName: Classic 9x9
+  levelSOs:
+  - {fileID: 11400000, guid: 33596e2f7281b8e47a55ecd52d1d6ec1, type: 2}
+  - {fileID: 11400000, guid: c4c094abc87a6b744ace269d91ace2ec, type: 2}
+  - {fileID: 11400000, guid: e86eeb65dc685f34198b4796ce67b8a3, type: 2}
+  - {fileID: 11400000, guid: 6caf2576732976d48a495a8dbbdf73d0, type: 2}
+  - {fileID: 11400000, guid: d768e99c95e1b3a4d9b22e0d9d5051ab, type: 2}
+  - {fileID: 11400000, guid: 107a0c0da3c01f5439a2ae80aa335716, type: 2}
+  - {fileID: 11400000, guid: 4782f12c2b595054da762637b5739d84, type: 2}
+  - {fileID: 11400000, guid: 18971ae4b015b244886915bea531bd37, type: 2}
+  - {fileID: 11400000, guid: 1e2870b0cd1ce284789db30dac0590e7, type: 2}
+  - {fileID: 11400000, guid: 2c8c50401906f6a47aa7c14b942b6ca3, type: 2}
