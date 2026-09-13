@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26bc14d51670e934d9bda7df148641f0, type: 3}
   m_Name: Classic 9x9
   m_EditorClassIdentifier: Assembly-CSharp::LevelDatabaseSO
-  stageName: Classic 9x9
+  stageName: 9x9
   levelSOs:
   - {fileID: 11400000, guid: 33596e2f7281b8e47a55ecd52d1d6ec1, type: 2}
   - {fileID: 11400000, guid: c4c094abc87a6b744ace269d91ace2ec, type: 2}

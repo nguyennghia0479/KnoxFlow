@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26bc14d51670e934d9bda7df148641f0, type: 3}
   m_Name: Bonus 8x8
   m_EditorClassIdentifier: Assembly-CSharp::LevelStageSO
-  stageName: Bonus 8x8
+  stageName: 8x8
   levelSOs:
   - {fileID: 11400000, guid: b962ee9b17d22e24cabb3b6c381f2cdf, type: 2}
   - {fileID: 11400000, guid: 6cc8106ff88414846b38a92f2a729f1f, type: 2}
