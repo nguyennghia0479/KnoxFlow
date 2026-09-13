@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72150c5e20f3e546bf7ef00b0d413ad, type: 3}
   m_Name: Level 8x8 10
   m_EditorClassIdentifier: Assembly-CSharp::LevelSO
-  levelId: 8x8_10
+  levelId: Classic_8x8_10
   levelNumber: 10
   cols: 8
   rows: 8
@@ -38,13 +38,13 @@ MonoBehaviour:
   - coordX: 1
     coordY: 4
     knoxColorType: 5
-  - coordX: 2
+  - coordX: 3
     coordY: 5
     knoxColorType: 1
-  - coordX: 1
+  - coordX: 2
     coordY: 6
     knoxColorType: 4
-  - coordX: 2
+  - coordX: 3
     coordY: 6
     knoxColorType: 6
   - coordX: 6
@@ -53,3 +53,4 @@ MonoBehaviour:
   - coordX: 0
     coordY: 7
     knoxColorType: 2
+  pack: 0
