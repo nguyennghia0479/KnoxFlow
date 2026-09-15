@@ -36,7 +36,7 @@ public class LevelSO : ScriptableObject
     }
 
     public string LevelId => levelId;
-    public string LevelName => $"Level {levelNumber} {cols}x{rows}";
+    public string LevelName => $"{levelNumber} {cols}x{rows}";
     public int LevelNumber => levelNumber;
     public int Cols => cols;
     public int Rows => rows;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Pool;
 using UnityEngine.UI;
 
 public enum CellType
@@ -41,13 +42,34 @@ public class Cell : MonoBehaviour
     [SerializeField] private RectTransform lineRightRect;
     [SerializeField] private RectTransform centerFillRect;
 
+    private string originalName;
     private int coordX;
     private int coordY;
     private KnoxColorType knoxColorType;
     private CellType cellType;
+    private IObjectPool<Cell> pool;
+
+    public void SetupPool(IObjectPool<Cell> pool)
+    {
+        this.pool = pool;
+    }
+
+    public void ReturnToPool()
+    {
+        if (!gameObject.activeSelf || pool == null)
+            return;
+      
+        gameObject.name = originalName;
+        ClearKnox();
+        ClearTempKnox();
+        ClearAllConnections();
+        IsOccupiedCell = KnoxColorType.None;
+        pool.Release(this);
+    }
 
     public void SetupCell(int coordX, int coordY, float cellSize)
     {
+        originalName = gameObject.name;
         this.coordX = coordX;
         this.coordY = coordY;
         gameObject.name = $"Cell_{coordX}_{coordY}";
@@ -73,6 +95,13 @@ public class Cell : MonoBehaviour
         knoxImg.color = HelperUtility.GetColorByType(knoxColorType);
         knoxImg.gameObject.SetActive(true);
         cellType = CellType.Knox;
+    }
+
+    private void ClearKnox()
+    {
+        knoxImg.gameObject.SetActive(false);
+        cellType = CellType.None;
+        knoxColorType = KnoxColorType.None;
     }
 
     public void SetupTempKnox(KnoxColorType knoxColorType)
@@ -153,8 +182,6 @@ public class Cell : MonoBehaviour
         tempKnoxImg.color = HelperUtility.GetColorByType(knoxColorType);
         tempKnoxImg.gameObject.SetActive(enabled);
     }
-
-    
 
     private bool IsCorner()
     {

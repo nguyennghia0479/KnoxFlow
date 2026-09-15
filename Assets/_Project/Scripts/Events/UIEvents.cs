@@ -14,6 +14,7 @@ public static class UIEvents
     public static event Action OnCreditsBtnClicked;
     public static event Action OnSettingsBtnClicked;
     public static event Action OnButtonClicked;
+    public static event Action<string> OnDropdownChanged;
 
     public static void RaisePlayButtonClicked()
     {
@@ -83,6 +84,12 @@ public static class UIEvents
 
     public static void RaiseButtonClicked()
     {
+        OnButtonClicked?.Invoke();
+    }
+
+    public static void RaiseDropdownChanged(string localeCode)
+    {
+        OnDropdownChanged?.Invoke(localeCode);
         OnButtonClicked?.Invoke();
     }
 }

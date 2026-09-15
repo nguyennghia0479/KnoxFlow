@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: MainGameUI Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: MainGameUI
+  m_TableCollectionNameGuidString: 8aed457c9c1798c49ad8996ac9e5ed38
+  m_Entries:
+  - m_Id: 14823235584
+    m_Key: mainGame.levelName
+    m_Metadata:
+      m_Items: []
+  - m_Id: 21940969472
+    m_Key: mainGame.moves
+    m_Metadata:
+      m_Items: []
+  - m_Id: 24130396160
+    m_Key: mainGame.best
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 6038330161572872503
+  references:
+    version: 2
+    RefIds:
+    - rid: 6038330161572872503
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1789354380238

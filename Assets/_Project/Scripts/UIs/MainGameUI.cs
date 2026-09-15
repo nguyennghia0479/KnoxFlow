@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 public class MainGameUI : MonoBehaviour
@@ -16,15 +17,29 @@ public class MainGameUI : MonoBehaviour
     [SerializeField] private Button undoBtn;
     [SerializeField] private Button clearLevelBtn;
 
+    [Header("Localization Elements")]
+    [SerializeField] protected string tableReference;
+    [SerializeField] private string levelNameKey;
+    [SerializeField] private string movesKey;
+    [SerializeField] private string bestKey;
+
     private GridManager gridManager;
-    private int knoxsToConnect;
+    private LevelSO levelSO;
+    private int knoxsToConnectAmount;
     private int connectedKnoxs;
     private int moves;
+    private int best;
     private bool undoState;
+    private LocalizedString levelNameLocalized;
+    private LocalizedString movesLocalized;
+    private LocalizedString bestLocalized;
 
     private void Awake()
     {
         gridManager = GetComponentInChildren<GridManager>();
+        levelNameLocalized = new(tableReference, levelNameKey);
+        movesLocalized = new(tableReference, movesKey);
+        bestLocalized = new(tableReference, bestKey);
     }
 
     private void OnEnable()
@@ -38,6 +53,10 @@ public class MainGameUI : MonoBehaviour
         gridManager.KnoxsConnected += HandleKnoxsConnected;
         gridManager.UndoStateChanged += HandleUndoStateChanged;
         UIEvents.OnRetryBtnClicked += HandleRetryButtonClicked;
+
+        levelNameLocalized.StringChanged += UpdateLevelNameText;
+        movesLocalized.StringChanged += UpdateMovesText;
+        bestLocalized.StringChanged += UpdateBestText;
     }
 
     private void OnDisable()
@@ -51,15 +70,23 @@ public class MainGameUI : MonoBehaviour
         gridManager.KnoxsConnected -= HandleKnoxsConnected;
         gridManager.UndoStateChanged -= HandleUndoStateChanged;
         UIEvents.OnRetryBtnClicked -= HandleRetryButtonClicked;
+
+        levelNameLocalized.StringChanged -= UpdateLevelNameText;
+        movesLocalized.StringChanged -= UpdateMovesText;
+        bestLocalized.StringChanged -= UpdateBestText;
     }
 
     public void SetupMainGameUI(LevelSO levelSO, LevelStageSO levelStageSO)
     {
-        levelName.text = levelSO.LevelName;
-        bestText.text = "Best: 0";
-        knoxsToConnect = levelSO.Knoxs.Length / 2;
+        this.levelSO = levelSO;
+        LevelDTO levelDTO = LevelManager.Instance.GetLevelDTO(levelSO.LevelId);
+        best = levelDTO.best;
+        knoxsToConnectAmount = levelSO.Knoxs.Length / 2;
         ClearMainGameUI();
         LevelManager.Instance.SetupLevelLoaded(levelSO, levelStageSO);
+
+        levelNameLocalized.RefreshString();
+        bestLocalized.RefreshString();
     }
 
     private void ClearMainGameUI()
@@ -67,10 +94,7 @@ public class MainGameUI : MonoBehaviour
         connectedKnoxs = 0;
         moves = 0;
         undoState = false;
-
-        UpdateKnoxsText(connectedKnoxs);
-        UpdateMovesText(moves);
-        UpdateUndoButton(undoState);
+        movesLocalized.RefreshString();
     }
 
     private void OnBackButtonClicked()
@@ -102,7 +126,8 @@ public class MainGameUI : MonoBehaviour
 
     private void HandleMoved(int moves)
     {
-        UpdateMovesText(moves);
+        this.moves = moves;
+        movesLocalized.RefreshString();
     }
 
     private void HandleUndoStateChanged(bool undoState)
@@ -116,19 +141,33 @@ public class MainGameUI : MonoBehaviour
         connectedKnoxs = 0;
         undoState = false;
 
+        movesLocalized.RefreshString();
+
         UpdateKnoxsText(connectedKnoxs);
-        UpdateMovesText(moves);
         UpdateUndoButton(undoState);
+    }
+
+    private void UpdateLevelNameText(string value)
+    {
+        if (levelSO != null && levelName != null)
+            levelName.text = string.Format(value, levelSO.LevelName);
     }
 
     private void UpdateKnoxsText(int knoxsConnected)
     {
-        knoxsText.text = $"Knoxs: {knoxsConnected}/{knoxsToConnect}";
+        knoxsText.text = $"Knoxs: {knoxsConnected}/{knoxsToConnectAmount}";
     }
 
-    private void UpdateMovesText(int moves)
+    private void UpdateMovesText(string value)
     {
-        movesText.text = $"Move: {moves}";
+        if (movesText != null)
+            movesText.text = string.Format(value, moves);
+    }
+
+    private void UpdateBestText(string value)
+    {
+        if (bestText != null)
+            bestText.text = string.Format (value, best);
     }
 
     private void UpdateUndoButton(bool undoState)

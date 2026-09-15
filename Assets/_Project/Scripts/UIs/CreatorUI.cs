@@ -15,5 +15,9 @@ public class CreatorUI : MonoBehaviour
             text.text = creator;
     }
 
-    public void OpenURL() => Application.OpenURL(url);
+    public void OpenURL()
+    {
+        UIEvents.RaiseButtonClicked();
+        Application.OpenURL(url);
+    }
 }

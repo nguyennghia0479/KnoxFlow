@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
     private void Start()
     {
         SwitchToUI(mainMenuUI.gameObject);
+        settingsUI.LoadSettings();
     }
 
     private void SwitchToUI(GameObject uiToEnable)
@@ -54,10 +55,23 @@ public class UIManager : MonoBehaviour
 
     private void HandlePlayButtonClicked()
     {
-        SwitchToUI(selectPackUI.gameObject);
+        if (mainGameUI.gameObject.activeSelf)
+        {
+            loadingUI.DoLoading(() => SwitchToUI(selectPackUI.gameObject));
+        }
+        else
+            SwitchToUI(selectPackUI.gameObject);
     }
 
     private void HandleLevelPackSelected(LevelPackSO levelPackSO)
+    {
+        if (mainGameUI.gameObject.activeSelf)
+            loadingUI.DoLoading(() => LoadSelectLevelUI(levelPackSO));
+        else
+            LoadSelectLevelUI(levelPackSO);
+    }
+
+    private void LoadSelectLevelUI(LevelPackSO levelPackSO)
     {
         SwitchToUI(selectLevelUI.gameObject);
         selectLevelUI.SetupSelectLevelUI(levelPackSO);
@@ -65,10 +79,10 @@ public class UIManager : MonoBehaviour
 
     private void HandleLevelSelected(LevelSO levelSO, LevelStageSO levelStageSO)
     {
-        loadingUI.DoLoading(() => LoadMainGameEffect(levelSO, levelStageSO));
+        loadingUI.DoLoading(() => LoadMainGameUI(levelSO, levelStageSO));
     }
 
-    private void LoadMainGameEffect(LevelSO levelSO, LevelStageSO levelStageSO)
+    private void LoadMainGameUI(LevelSO levelSO, LevelStageSO levelStageSO)
     {
         SwitchToUI(mainGameUI.gameObject);
         mainGameUI.SetupMainGameUI(levelSO, levelStageSO);
@@ -110,6 +124,8 @@ public class UIManager : MonoBehaviour
         }
         else
             SwitchToUI(mainMenuUI.gameObject);
+
+        UIEvents.RaiseButtonClicked();
     }
 
     private void HandleLevelCompleted(bool isPerfect, int moves)

@@ -1,4 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine;
+
+public class LevelDTO
+{
+    public bool isCompleted;
+    public bool isPerfect;
+    public int best;
+}
 
 public class LevelManager : MonoBehaviour
 {
@@ -6,6 +14,7 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] private LevelPackSO[] levelPackSOs;
 
+    private Dictionary<string, LevelDTO> levelCache = new();
     private LevelPackSO currentLevelPack;
     private LevelStageSO[] levelStageSOs;
     private LevelStageSO currentStage;
@@ -28,6 +37,8 @@ public class LevelManager : MonoBehaviour
         UIEvents.OnLevelPackSelected += HandleLevelPackSelected;
         UIEvents.OnNextLevelBtnClicked += HandleNextLevelButtonClicked;
         UIEvents.OnRetryBtnClicked += HandleRetryButtonClicked;
+
+        GameEvents.OnLevelCompleted += HandleLevelCompleted;
     }
 
     private void OnDisable()
@@ -36,6 +47,8 @@ public class LevelManager : MonoBehaviour
         UIEvents.OnLevelPackSelected -= HandleLevelPackSelected;
         UIEvents.OnNextLevelBtnClicked -= HandleNextLevelButtonClicked;
         UIEvents.OnRetryBtnClicked -= HandleRetryButtonClicked;
+
+        GameEvents.OnLevelCompleted -= HandleLevelCompleted;
     }
 
     public void SetupLevelLoaded(LevelSO levelSO, LevelStageSO levelStageSO)
@@ -52,12 +65,23 @@ public class LevelManager : MonoBehaviour
     {
         if (currentLevelPack == levelPackSO) // case for back to select level
         {
-            ClearSetup();
+            //ClearSetup();
             return;
         }
 
         currentLevelPack = levelPackSO;
         levelStageSOs = levelPackSO.LevelStageSOs;
+    }
+
+    public LevelDTO GetLevelDTO(string levelId)
+    {
+        if (levelCache.TryGetValue(levelId, out LevelDTO levelDTO))
+            return levelDTO;
+        
+        levelDTO = SaveManager.LoadLevel(levelId);
+        levelDTO ??= new();
+        levelCache.Add(levelId, levelDTO);
+        return levelDTO;
     }
 
     private void ClearSetup()
@@ -81,6 +105,20 @@ public class LevelManager : MonoBehaviour
     private void HandleRetryButtonClicked()
     {
         LoadLevel();
+    }
+
+    private void HandleLevelCompleted(bool isPerfect, int moves)
+    {
+        if (!levelCache.TryGetValue(currentLevel.LevelId, out LevelDTO levelDTO))
+        {
+            Debug.LogError("Not found level id " + currentLevel.LevelId);
+            return;
+        }
+
+        levelDTO.isCompleted = true;
+        levelDTO.isPerfect = levelDTO.isPerfect || isPerfect;
+        levelDTO.best = (levelDTO.best <= 0 || moves < levelDTO.best) ? moves : levelDTO.best;
+        SaveManager.SaveLevel(currentLevel.LevelId, levelDTO);
     }
 
     private void LoadLevel()

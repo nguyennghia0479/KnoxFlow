@@ -85,7 +85,16 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
     private void ResetGrid()
     {
         for (int i = 0; i < transform.childCount; i++)
-            Destroy(transform.GetChild(i).gameObject);
+        {
+            Transform childTransform = transform.GetChild(i);
+            if (childTransform != null && !childTransform.gameObject.activeSelf)
+                continue;
+
+            if (childTransform.TryGetComponent<Cell>(out var cell))
+                cell.ReturnToPool();
+            else
+                Destroy(cell.gameObject);
+        }
 
         gridData = null;
         currentKnox = KnoxColorType.None;
@@ -125,8 +134,9 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
         {
             int coordX = i % cols;
             int coordY = i / cols;
-            Cell newCell = Instantiate(cellPrefab, transform);
+            Cell newCell = ObjectPoolManager.Instance.GetPool();
             newCell.SetupCell(coordX, coordY, cellSize);
+            newCell.transform.SetSiblingIndex(i);
             gridData[coordX, coordY] = newCell;
         }
     }
@@ -294,6 +304,7 @@ public class GridManager : MonoBehaviour, IPointerDownHandler, IDragHandler, IPo
             KnoxsConnected?.Invoke(connectedKnoxs.Count);
             Moved?.Invoke(moves);
             UndoStateChanged?.Invoke(canUndo);
+            GameEvents.RaiseOnKnoxsConnected();
             CheckLevelCompleted();
         }
     }

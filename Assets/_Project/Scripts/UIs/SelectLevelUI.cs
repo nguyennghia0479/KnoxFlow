@@ -24,20 +24,14 @@ public class SelectLevelUI : MonoBehaviour
 
     private void OnEnable()
     {
-        if (previousButton)
-            previousButton.onClick.AddListener(OnPreviousButtonClicked);
-
-        if (nextButton)
-            nextButton.onClick.AddListener(OnNextButtonClicked);
+        previousButton.onClick.AddListener(OnPreviousButtonClicked);
+        nextButton.onClick.AddListener(OnNextButtonClicked);
     }
 
     private void OnDisable()
     {
-        if (previousButton)
-            previousButton.onClick.RemoveListener(OnPreviousButtonClicked);
-
-        if (nextButton)
-            nextButton.onClick.RemoveListener(OnNextButtonClicked);
+        previousButton.onClick.RemoveListener(OnPreviousButtonClicked);
+        nextButton.onClick.RemoveListener(OnNextButtonClicked);
     }
 
     public void SetupSelectLevelUI(LevelPackSO levelPackSO)
@@ -54,6 +48,7 @@ public class SelectLevelUI : MonoBehaviour
         if (currentStageIdx < 0)
             currentStageIdx = levelStageSOs.Length - 1;
 
+        UIEvents.RaiseButtonClicked();
         UpdateSelectlevelUI();
     }
 
@@ -63,6 +58,7 @@ public class SelectLevelUI : MonoBehaviour
         if (currentStageIdx >= levelStageSOs.Length)
             currentStageIdx = 0;
 
+        UIEvents.RaiseButtonClicked();
         UpdateSelectlevelUI();
     }
 
