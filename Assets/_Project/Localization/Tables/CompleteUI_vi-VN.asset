@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: CompleteUI_vi-VN
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.StringTable
+  m_LocaleId:
+    m_Code: vi-VN
+  m_SharedData: {fileID: 11400000, guid: c4f3ac7a0d51ddf4ca9a32f312db8457, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 189134315520
+    m_Localized: "HO\xC0N TH\xC0NH"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 191357296640
+    m_Localized: "XU\u1EA4T S\u1EAEC"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205760536576
+    m_Localized: "B\u1EA1n \u0111\xE3 ho\xE0n th\xE0nh m\xE0n ch\u01A1i trong {0}
+      l\u01B0\u1EE3t"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 209527021568
+    m_Localized: "M\xE0n Ti\u1EBFp"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 211427041280
+    m_Localized: "Ch\u01A1i l\u1EA1i"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40309342380032
+    m_Localized: "Ho\xE0n Th\xE0nh"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40572040028160
+    m_Localized: "M\xE0n {0}"
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

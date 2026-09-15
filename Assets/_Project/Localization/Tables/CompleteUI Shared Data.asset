@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b11a58205ec3474ca216360e9fa74a8, type: 3}
+  m_Name: CompleteUI Shared Data
+  m_EditorClassIdentifier: Unity.Localization::UnityEngine.Localization.Tables.SharedTableData
+  m_TableCollectionName: CompleteUI
+  m_TableCollectionNameGuidString: c4f3ac7a0d51ddf4ca9a32f312db8457
+  m_Entries:
+  - m_Id: 189134315520
+    m_Key: complete.complete
+    m_Metadata:
+      m_Items: []
+  - m_Id: 191357296640
+    m_Key: complete.perfect
+    m_Metadata:
+      m_Items: []
+  - m_Id: 205760536576
+    m_Key: complete.message
+    m_Metadata:
+      m_Items: []
+  - m_Id: 209527021568
+    m_Key: complete.nextLevel
+    m_Metadata:
+      m_Items: []
+  - m_Id: 211427041280
+    m_Key: complete.retry
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40309342380032
+    m_Key: complete.completedPack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 40572040028160
+    m_Key: complete.nextStage
+    m_Metadata:
+      m_Items: []
+  m_Metadata:
+    m_Items: []
+  m_KeyGenerator:
+    rid: 6038330161572872504
+  references:
+    version: 2
+    RefIds:
+    - rid: 6038330161572872504
+      type: {class: DistributedUIDGenerator, ns: UnityEngine.Localization.Tables, asm: Unity.Localization}
+      data:
+        m_CustomEpoch: 1789354719109

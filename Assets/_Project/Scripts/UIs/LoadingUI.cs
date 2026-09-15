@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class LoadingUI : MonoBehaviour
 {
+    [Range(.1f, 1f)]
     [SerializeField] private float duration = .5f;
 
     private Image loadingImg;

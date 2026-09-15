@@ -29,8 +29,10 @@ public class LevelUI : MonoBehaviour
         this.levelSO = levelSO;
         this.levelStageSO = levelStageSO;
         level.text = levelSO.LevelNumber.ToString();
-        completeIcon.gameObject.SetActive(false);
-        perfectIcon.gameObject.SetActive(false);
+
+        LevelDTO levelDTO = LevelManager.Instance.GetLevelDTO(levelSO.LevelId);
+        completeIcon.gameObject.SetActive(!levelDTO.isPerfect && levelDTO.isCompleted);
+        perfectIcon.gameObject.SetActive(levelDTO.isPerfect && levelDTO.isCompleted);
     }
 
     private void OnLevelButtonClicked()

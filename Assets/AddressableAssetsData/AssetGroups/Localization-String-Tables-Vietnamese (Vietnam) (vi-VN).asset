@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Localization-String-Tables-Vietnamese (Vietnam) (vi-VN)
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Localization-String-Tables-Vietnamese (Vietnam) (vi-VN)
+  m_GUID: 3f08e1a76629fc54bba37b3ed787363e
+  m_SerializeEntries:
+  - m_GUID: 4972934e4960adb429e2445ace5745d4
+    m_Address: TutorialUI_vi-VN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-vi-VN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5db04d7c2f04afd4aa9dd00b465c0b60
+    m_Address: MainMenuUI_vi-VN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-vi-VN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 656e8a92fcf2ad148a7966121e7317fe
+    m_Address: SettingsUI_vi-VN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-vi-VN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 667e3a21bff2526468cd3c5498328db0
+    m_Address: CreditsUI_vi-VN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-vi-VN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8947795cf02eb649ace00625d56958a
+    m_Address: CompleteUI_vi-VN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-vi-VN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f18766749652a5b42af41d3e7f5cbaad
+    m_Address: MainGameUI_vi-VN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-vi-VN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fd95cd946fb147b45843a96627de43dc
+    m_Address: SelectPackUI_vi-VN
+    m_ReadOnly: 1
+    m_SerializedLabels:
+    - Locale-vi-VN
+    - Preload
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 1
+  m_Settings: {fileID: 11400000, guid: f3fed6555f1d41d4ea58d47917d138a7, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: fe48b2ae957da8649a38540defc86ba0, type: 2}
+    - {fileID: 11400000, guid: 26e65495acb48d14cbc387ffd32d7ecd, type: 2}
+    - {fileID: 11400000, guid: f6421390dd1a27845b9bc9dbd880c0bc, type: 2}

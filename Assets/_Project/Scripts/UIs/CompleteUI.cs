@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization;
 using UnityEngine.UI;
 
 public class CompleteUI : MonoBehaviour
@@ -8,29 +9,55 @@ public class CompleteUI : MonoBehaviour
     [SerializeField] private TMP_Text completeHeader;
     [SerializeField] private TMP_Text perfectHeader;
     [SerializeField] private TMP_Text messageText;
-    [SerializeField] private TMP_Text nextLevelBtnText;
+    [SerializeField] private TMP_Text nextLevelText;
+    [SerializeField] private TMP_Text nextStageText;
+    [SerializeField] private TMP_Text completedPackText;
 
     [Header("Button Elements")]
     [SerializeField] private Button nextLevelBtn;
     [SerializeField] private Button retryBtn;
 
+    [Header("Localization Elements")]
+    [SerializeField] protected string tableReference;
+    [SerializeField] private string messageKey;
+    [SerializeField] private string nextStageKey;
+
+    private LocalizedString messageLocalized;
+    private LocalizedString nextStageLocalized;
+    private int moves;
+    private string nextStageName;
+
+    private void Awake()
+    {
+        messageLocalized = new(tableReference, messageKey);
+        nextStageLocalized = new(tableReference, nextStageKey);
+    }
+
     private void OnEnable()
     {
         nextLevelBtn.onClick.AddListener(OnNextLevelButtonClicked);
         retryBtn.onClick.AddListener(OnRetryButtonClicked);
+
+        messageLocalized.StringChanged += UpdateMessageText;
+        nextStageLocalized.StringChanged += UpdatePlayNextStage;
     }
 
     private void OnDisable()
     {
         nextLevelBtn.onClick.RemoveListener(OnNextLevelButtonClicked);
         retryBtn.onClick.RemoveListener(OnRetryButtonClicked);
+
+        messageLocalized.StringChanged -= UpdateMessageText;
+        nextStageLocalized.StringChanged -= UpdatePlayNextStage;
     }
 
     public void SetupCompleteUI(bool isPerfect, int moves)
     {
         UpdateHeader(isPerfect);
-        UpdateMessageText(moves);
         UpdateNextLevelButtonText();
+
+        this.moves = moves;
+        messageLocalized.RefreshString();
     }
 
     private void UpdateHeader(bool isPerfect)
@@ -39,25 +66,24 @@ public class CompleteUI : MonoBehaviour
         perfectHeader.gameObject.SetActive(isPerfect);
     }
 
-    private void UpdateMessageText(int moves)
-    {
-        messageText.text = $"You have completed level in {moves} moves";
-    }
-
     private void UpdateNextLevelButtonText()
     {
-        string nextLevelText = "Next Level";
-        string nextStageText = "Select Pack";
-
-        if (LevelManager.Instance.CanLoadNextStage)
+        bool isLastLevelofStage = LevelManager.Instance.IsLastLevel;
+        bool canLoadNextStage = LevelManager.Instance.CanLoadNextStage;
+        if (canLoadNextStage)
         {
             LevelStageSO nextLevelStage = LevelManager.Instance.GetNextLevelStageSO();
-            nextStageText = "Play " + nextLevelStage.StageName;
+            nextStageName = nextLevelStage.StageName;
+            nextStageLocalized.RefreshString();
         }
 
-        string text = LevelManager.Instance.IsLastLevel ? nextStageText : nextLevelText;
-        nextLevelBtnText.text = text;
+        nextLevelText.gameObject.SetActive(!isLastLevelofStage);
+        nextStageText.gameObject.SetActive(isLastLevelofStage && canLoadNextStage);
+        completedPackText.gameObject.SetActive(isLastLevelofStage && !canLoadNextStage);
     }
+
+    private void UpdatePlayNextStage(string value) => nextStageText.text = string.Format(value, nextStageName);
+    private void UpdateMessageText(string value) => messageText.text = string.Format(value, moves);
 
     private void OnNextLevelButtonClicked()
     {
