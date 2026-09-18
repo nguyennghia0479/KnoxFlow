@@ -19,7 +19,10 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 38873374720
-    m_Localized: Drag the mouse to connect all pairs of Knoxs to complete the level.
+    m_Localized: '- Drag your mouse to connect all pairs of Knoxes and complete the
+      level.
+
+      - You can use a hint once per level.'
     m_Metadata:
       m_Items: []
   - m_Id: 5075673088
@@ -27,7 +30,10 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 137036865536
-    m_Localized: Swipe to connect all pairs of Knoxs to complete the level.
+    m_Localized: '- Swipe to connect all pairs of Knoxes and complete the level.
+
+      -
+      You can use a hint once per level.'
     m_Metadata:
       m_Items: []
   references:

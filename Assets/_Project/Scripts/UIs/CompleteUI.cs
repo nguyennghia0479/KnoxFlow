@@ -87,7 +87,7 @@ public class CompleteUI : MonoBehaviour
 
     private void OnNextLevelButtonClicked()
     {
-        if (LevelManager.Instance.CanLoadNextStage)
+        if (LevelManager.Instance.CanLoadNextStage || !LevelManager.Instance.IsLastLevel)
             UIEvents.RaiseNextLevelButtonClicked();
         else
             UIEvents.RaisePlayButtonClicked();

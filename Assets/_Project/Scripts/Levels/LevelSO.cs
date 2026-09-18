@@ -13,6 +13,20 @@ public struct KnoxInfo
     public KnoxColorType knoxColorType;
 }
 
+[System.Serializable]
+public struct Coordinate
+{
+    public int coordX;
+    public int coordY;
+}
+
+[System.Serializable]
+public struct KnoxHint
+{
+    public KnoxColorType knoxColorType;
+    public Coordinate[] coordinates;
+}
+
 [CreateAssetMenu(fileName = "Level", menuName = "Scriptable Objects/LevelSO")]
 public class LevelSO : ScriptableObject
 {
@@ -22,17 +36,19 @@ public class LevelSO : ScriptableObject
     [SerializeField] private int rows;
     [SerializeField] private KnoxInfo[] knoxInfos;
     [SerializeField] private Pack pack;
+    [SerializeField] private KnoxHint[] knoxHints;
 
     private void OnValidate()
     {
         levelId = $"{pack}_{cols}x{rows}_{levelNumber}";
     }
 
-    public void SaveLevelSO(int cols, int rows, KnoxInfo[] knoxInfos)
+    public void SaveLevelSO(int cols, int rows, KnoxInfo[] knoxInfos, KnoxHint[] knoxHints)
     {
         this.cols = cols;
         this.rows = rows;
         this.knoxInfos = knoxInfos;
+        this.knoxHints = knoxHints;
     }
 
     public string LevelId => levelId;
@@ -41,4 +57,5 @@ public class LevelSO : ScriptableObject
     public int Cols => cols;
     public int Rows => rows;
     public KnoxInfo[] Knoxs => knoxInfos;
+    public KnoxHint[] Hints => knoxHints;
 }

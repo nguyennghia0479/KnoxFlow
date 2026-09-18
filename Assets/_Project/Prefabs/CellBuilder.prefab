@@ -210,6 +210,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CellBuilder
   knoxImg: {fileID: 8570980962975182605}
+  tempKnoxImg: {fileID: 5809908436641574029}
 --- !u!114 &8595812492093504511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,7 +218,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2745944942022933659}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6f9f3e37b9e58e4c86816f6f0d15333, type: 3}
   m_Name: 

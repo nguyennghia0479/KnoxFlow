@@ -4,16 +4,13 @@ using UnityEngine.UI;
 public class CellBuilder : MonoBehaviour
 {
     [SerializeField] private Image knoxImg;
+    [SerializeField] private Image tempKnoxImg;
 
     private int coordX;
     private int coordY;
     private CellType cellType;
     private KnoxColorType knoxColorType;
-
-    //private void OnValidate()
-    //{
-    //    UpdateVisual();
-    //}
+    private KnoxColorType isHintPath;
 
     public void SetupCell(int coordX, int coordY)
     {
@@ -21,6 +18,7 @@ public class CellBuilder : MonoBehaviour
         this.coordY = coordY;
         gameObject.name = $"Cell_{coordX}_{coordY}";
         cellType = CellType.None;
+        isHintPath = KnoxColorType.None;
         UpdateVisual();
     }
 
@@ -36,6 +34,14 @@ public class CellBuilder : MonoBehaviour
         UpdateVisual();
     }
 
+    public void SetHint(KnoxColorType knoxColorType)
+    {
+        this.knoxColorType = knoxColorType;
+        tempKnoxImg.color = HelperUtility.GetColorByType(knoxColorType);
+        isHintPath = knoxColorType;
+        UpdateVisual();
+    }
+
     private void UpdateVisual()
     {
         if (knoxImg == null)
@@ -46,6 +52,7 @@ public class CellBuilder : MonoBehaviour
 
         bool isActive = cellType != CellType.None;
         knoxImg.gameObject.SetActive(isActive);
+        tempKnoxImg.gameObject.SetActive(isHintPath != KnoxColorType.None);
     }
 
     public int CoordX => coordX;

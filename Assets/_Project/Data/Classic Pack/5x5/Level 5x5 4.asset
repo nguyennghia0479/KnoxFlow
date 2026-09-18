@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72150c5e20f3e546bf7ef00b0d413ad, type: 3}
   m_Name: Level 5x5 4
   m_EditorClassIdentifier: Assembly-CSharp::LevelSO
-  levelId: 
+  levelId: Classic_5x5_4
   levelNumber: 4
   cols: 5
   rows: 5
@@ -41,3 +41,63 @@ MonoBehaviour:
   - coordX: 2
     coordY: 4
     knoxColorType: 4
+  pack: 0
+  knoxHints:
+  - knoxColorType: 1
+    coordinates:
+    - coordX: 0
+      coordY: 1
+    - coordX: 0
+      coordY: 0
+    - coordX: 1
+      coordY: 0
+    - coordX: 2
+      coordY: 0
+    - coordX: 3
+      coordY: 0
+  - knoxColorType: 2
+    coordinates:
+    - coordX: 0
+      coordY: 4
+    - coordX: 0
+      coordY: 3
+    - coordX: 0
+      coordY: 2
+    - coordX: 1
+      coordY: 2
+    - coordX: 1
+      coordY: 1
+    - coordX: 2
+      coordY: 1
+    - coordX: 3
+      coordY: 1
+    - coordX: 4
+      coordY: 1
+    - coordX: 4
+      coordY: 0
+  - knoxColorType: 4
+    coordinates:
+    - coordX: 2
+      coordY: 2
+    - coordX: 3
+      coordY: 2
+    - coordX: 4
+      coordY: 2
+    - coordX: 4
+      coordY: 3
+    - coordX: 4
+      coordY: 4
+    - coordX: 3
+      coordY: 4
+    - coordX: 2
+      coordY: 4
+  - knoxColorType: 3
+    coordinates:
+    - coordX: 1
+      coordY: 4
+    - coordX: 1
+      coordY: 3
+    - coordX: 2
+      coordY: 3
+    - coordX: 3
+      coordY: 3

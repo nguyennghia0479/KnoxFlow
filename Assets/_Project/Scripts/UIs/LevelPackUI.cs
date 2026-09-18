@@ -26,7 +26,8 @@ public class LevelPackUI : MonoBehaviour
     {
         this.levelPackSO = levelPackSO;
         packName.text = levelPackSO.PackName;
-        levelAmount.text = $"0/{levelPackSO.GetLevelAmountInPack()}";
+        int levelCompleted = LevelManager.Instance.GetLevelCompletedInPack(levelPackSO);
+        levelAmount.text = $"{levelCompleted}/{levelPackSO.GetLevelAmountInPack()}";
     }
 
     private void OnLevelPackButtonClicked()
