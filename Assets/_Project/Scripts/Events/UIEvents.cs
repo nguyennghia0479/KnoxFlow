@@ -7,6 +7,7 @@ public static class UIEvents
     public static event Action<LevelSO, LevelStageSO> OnLevelSelected;
     public static event Action OnUndoBtnClicked;
     public static event Action OnClearLevelBtnClicked;
+    public static event Action OnHintBtnClicked;
     public static event Action OnNextLevelBtnClicked;
     public static event Action OnRetryBtnClicked;
     public static event Action OnMainMenuBtnClicked;
@@ -43,6 +44,12 @@ public static class UIEvents
     public static void RaiseClearLevelButtonClicked()
     {
         OnClearLevelBtnClicked?.Invoke();
+        OnButtonClicked?.Invoke();
+    }
+
+    public static void RaiseHintButtonClicked()
+    {
+        OnHintBtnClicked?.Invoke();
         OnButtonClicked?.Invoke();
     }
 

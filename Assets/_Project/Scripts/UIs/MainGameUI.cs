@@ -16,6 +16,7 @@ public class MainGameUI : MonoBehaviour
     [SerializeField] private Button settingsBtn;
     [SerializeField] private Button undoBtn;
     [SerializeField] private Button clearLevelBtn;
+    [SerializeField] private Button hintBtn;    
 
     [Header("Localization Elements")]
     [SerializeField] protected string tableReference;
@@ -30,6 +31,7 @@ public class MainGameUI : MonoBehaviour
     private int moves;
     private int best;
     private bool undoState;
+    private bool hintState;
     private LocalizedString levelNameLocalized;
     private LocalizedString movesLocalized;
     private LocalizedString bestLocalized;
@@ -48,27 +50,31 @@ public class MainGameUI : MonoBehaviour
         settingsBtn.onClick.AddListener(OnSettingsButtonClicked);
         undoBtn.onClick.AddListener(OnUndoButtonClicked);
         clearLevelBtn.onClick.AddListener(OnClearLevelButtonClicked);
+        hintBtn.onClick.AddListener(OnHintButtonClicked);
 
         gridManager.Moved += HandleMoved;
         gridManager.KnoxsConnected += HandleKnoxsConnected;
         gridManager.UndoStateChanged += HandleUndoStateChanged;
+        gridManager.HintStateChanged += HandleHintStageChanged;
         UIEvents.OnRetryBtnClicked += HandleRetryButtonClicked;
 
         levelNameLocalized.StringChanged += UpdateLevelNameText;
         movesLocalized.StringChanged += UpdateMovesText;
         bestLocalized.StringChanged += UpdateBestText;
     }
-
+    
     private void OnDisable()
     {
         backBtn.onClick.RemoveListener(OnBackButtonClicked);
         settingsBtn.onClick.RemoveListener(OnSettingsButtonClicked);
         undoBtn.onClick.RemoveListener(OnUndoButtonClicked);
         clearLevelBtn.onClick.RemoveListener(OnClearLevelButtonClicked);
+        hintBtn.onClick.RemoveListener(OnHintButtonClicked);
 
         gridManager.Moved -= HandleMoved;
         gridManager.KnoxsConnected -= HandleKnoxsConnected;
         gridManager.UndoStateChanged -= HandleUndoStateChanged;
+        gridManager.HintStateChanged -= HandleHintStageChanged;
         UIEvents.OnRetryBtnClicked -= HandleRetryButtonClicked;
 
         levelNameLocalized.StringChanged -= UpdateLevelNameText;
@@ -94,6 +100,7 @@ public class MainGameUI : MonoBehaviour
         connectedKnoxs = 0;
         moves = 0;
         undoState = false;
+        hintState = true;
         movesLocalized.RefreshString();
     }
 
@@ -116,7 +123,12 @@ public class MainGameUI : MonoBehaviour
     private void OnClearLevelButtonClicked()
     {
         UIEvents.RaiseClearLevelButtonClicked();
-        ClearMainGameUI();
+        //ClearMainGameUI();
+    }
+
+    private void OnHintButtonClicked()
+    {
+        UIEvents.RaiseHintButtonClicked();
     }
 
     private void HandleKnoxsConnected(int connectedKnoxs)
@@ -130,21 +142,16 @@ public class MainGameUI : MonoBehaviour
         movesLocalized.RefreshString();
     }
 
-    private void HandleUndoStateChanged(bool undoState)
-    {
-        UpdateUndoButton(undoState);
-    }
+    private void HandleUndoStateChanged(bool undoState) => UpdateUndoButton(undoState);
+
+    private void HandleHintStageChanged(bool hintState) => UpdateHintButton(hintState);
 
     private void HandleRetryButtonClicked()
     {
-        moves = 0;
-        connectedKnoxs = 0;
-        undoState = false;
-
-        movesLocalized.RefreshString();
-
+        ClearMainGameUI();
         UpdateKnoxsText(connectedKnoxs);
         UpdateUndoButton(undoState);
+        UpdateHintButton(hintState);
     }
 
     private void UpdateLevelNameText(string value)
@@ -170,8 +177,7 @@ public class MainGameUI : MonoBehaviour
             bestText.text = string.Format (value, best);
     }
 
-    private void UpdateUndoButton(bool undoState)
-    {
-        undoBtn.interactable = undoState;
-    }
+    private void UpdateUndoButton(bool undoState) => undoBtn.interactable = undoState;
+ 
+    private void UpdateHintButton(bool hintState) => hintBtn.interactable = hintState;
 }

@@ -60,3 +60,116 @@ MonoBehaviour:
     coordY: 6
     knoxColorType: 5
   pack: 1
+  knoxHints:
+  - knoxColorType: 7
+    coordinates:
+    - coordX: 1
+      coordY: 1
+    - coordX: 2
+      coordY: 1
+    - coordX: 3
+      coordY: 1
+    - coordX: 3
+      coordY: 2
+  - knoxColorType: 5
+    coordinates:
+    - coordX: 4
+      coordY: 1
+    - coordX: 5
+      coordY: 1
+    - coordX: 5
+      coordY: 2
+    - coordX: 5
+      coordY: 3
+    - coordX: 6
+      coordY: 3
+    - coordX: 6
+      coordY: 4
+    - coordX: 6
+      coordY: 5
+    - coordX: 6
+      coordY: 6
+  - knoxColorType: 2
+    coordinates:
+    - coordX: 3
+      coordY: 5
+    - coordX: 3
+      coordY: 4
+    - coordX: 3
+      coordY: 3
+    - coordX: 4
+      coordY: 3
+    - coordX: 4
+      coordY: 2
+  - knoxColorType: 1
+    coordinates:
+    - coordX: 2
+      coordY: 4
+    - coordX: 2
+      coordY: 3
+    - coordX: 2
+      coordY: 2
+    - coordX: 1
+      coordY: 2
+    - coordX: 0
+      coordY: 2
+    - coordX: 0
+      coordY: 1
+    - coordX: 0
+      coordY: 0
+    - coordX: 1
+      coordY: 0
+    - coordX: 2
+      coordY: 0
+    - coordX: 3
+      coordY: 0
+    - coordX: 4
+      coordY: 0
+    - coordX: 5
+      coordY: 0
+    - coordX: 6
+      coordY: 0
+    - coordX: 6
+      coordY: 1
+    - coordX: 6
+      coordY: 2
+  - knoxColorType: 4
+    coordinates:
+    - coordX: 5
+      coordY: 5
+    - coordX: 5
+      coordY: 6
+    - coordX: 4
+      coordY: 6
+    - coordX: 3
+      coordY: 6
+    - coordX: 2
+      coordY: 6
+    - coordX: 1
+      coordY: 6
+    - coordX: 0
+      coordY: 6
+    - coordX: 0
+      coordY: 5
+    - coordX: 0
+      coordY: 4
+    - coordX: 0
+      coordY: 3
+    - coordX: 1
+      coordY: 3
+  - knoxColorType: 3
+    coordinates:
+    - coordX: 1
+      coordY: 4
+    - coordX: 1
+      coordY: 5
+    - coordX: 2
+      coordY: 5
+  - knoxColorType: 6
+    coordinates:
+    - coordX: 4
+      coordY: 5
+    - coordX: 4
+      coordY: 4
+    - coordX: 5
+      coordY: 4

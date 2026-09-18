@@ -73,6 +73,22 @@ public class LevelManager : MonoBehaviour
         levelStageSOs = levelPackSO.LevelStageSOs;
     }
 
+    public int GetLevelCompletedInPack(LevelPackSO levelPackSO)
+    {
+        int levelCompletedAmount = 0;
+        foreach (var stage in levelPackSO.LevelStageSOs)
+        {
+            foreach (var level in stage.LevelSOs)
+            {
+                LevelDTO leveDTO = GetLevelDTO(level.LevelId);
+                if (leveDTO.isCompleted || leveDTO.isPerfect)
+                    levelCompletedAmount++;
+            }
+        }
+
+        return levelCompletedAmount;
+    }
+
     public LevelDTO GetLevelDTO(string levelId)
     {
         if (levelCache.TryGetValue(levelId, out LevelDTO levelDTO))

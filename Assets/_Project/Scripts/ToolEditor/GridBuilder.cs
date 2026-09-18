@@ -15,6 +15,8 @@ public class GridBuilder : MonoBehaviour
 
     private float cellSize;
     private CellBuilder[,] gridData;
+    private Dictionary<KnoxColorType, List<CellBuilder>> hintDict = new();
+    private List<CellBuilder> hintPaths = new();
 
     private void SetupGridLayoutGroup()
     {
@@ -38,7 +40,7 @@ public class GridBuilder : MonoBehaviour
             Debug.LogError("[GridBuilder] not have assigned GridCell Prefab");
             return;
         }
-     
+
         ResetGrid();
         SetupGridLayoutGroup();
 
@@ -66,6 +68,26 @@ public class GridBuilder : MonoBehaviour
         gridData = null;
     }
 
+    public void AddCellToPathHint(KnoxColorType knoxColorType, CellBuilder cell)
+    {
+        if (knoxColorType == KnoxColorType.None)
+        {
+            if (hintDict.ContainsKey(cell.KnoxColorType))
+            {
+                hintDict[cell.KnoxColorType] = new();
+                hintPaths = hintDict[cell.KnoxColorType];
+            }
+            return;
+        }
+
+        if (!hintDict.ContainsKey(knoxColorType))
+            hintDict[knoxColorType] = new();
+
+        hintPaths = hintDict[knoxColorType];
+        if (!hintPaths.Contains(cell))
+            hintPaths.Add(cell);
+    }
+
     public void SaveToLevelSO()
     {
         if (levelSO == null)
@@ -81,7 +103,8 @@ public class GridBuilder : MonoBehaviour
             return;
         }
 
-        List<KnoxInfo> knoxs = new();
+        List<KnoxInfo> knoxInfos = new();
+        List<KnoxColorType> knoxs = new();
         foreach (var cellBuilder in cellBuilders)
         {
             if (cellBuilder.CellType == CellType.Knox)
@@ -92,11 +115,36 @@ public class GridBuilder : MonoBehaviour
                     coordY = cellBuilder.CoordY,
                     knoxColorType = cellBuilder.KnoxColorType
                 };
-                knoxs.Add(knox);
+                knoxInfos.Add(knox);
+                if (!knoxs.Contains(knox.knoxColorType))
+                    knoxs.Add(knox.knoxColorType);
             }
         }
 
-        levelSO.SaveLevelSO(cols, rows, knoxs.ToArray());
+        List<KnoxHint> knoxHints = new();
+        foreach (var knox in knoxs)
+        {
+            List<CellBuilder> hintPath = hintDict[knox];
+            List<Coordinate> coords = new();
+            foreach (var cellBuilder in hintPath)
+            {
+                Coordinate coord = new()
+                {
+                    coordX = cellBuilder.CoordX,
+                    coordY = cellBuilder.CoordY,
+                };
+                coords.Add(coord);
+            }
+
+            KnoxHint knoxHint = new()
+            {
+                knoxColorType = knox,
+                coordinates = coords.ToArray()
+            };
+            knoxHints.Add(knoxHint);
+        }
+
+        levelSO.SaveLevelSO(cols, rows, knoxInfos.ToArray(), knoxHints.ToArray());
         EditorUtility.SetDirty(levelSO);
         AssetDatabase.SaveAssets();
         Debug.Log($"Save {levelSO.name} successfully");
@@ -120,6 +168,29 @@ public class GridBuilder : MonoBehaviour
             CellBuilder cell = gridData[knox.coordX, knox.coordY];
             if (cell != null)
                 cell.SetKnox(knox.knoxColorType);
+        }
+
+        KnoxHint[] knoxHints = levelSO.Hints;
+        hintDict.Clear();
+        hintPaths.Clear();
+        if (knoxHints != null)
+        {
+            foreach (var knoxHint in knoxHints)
+            {
+                List<CellBuilder> hintPaths = new();
+                foreach (var coord in knoxHint.coordinates)
+                {
+                    CellBuilder cell = gridData[coord.coordX, coord.coordY];
+                    if (cell != null)
+                    {
+                        cell.SetHint(knoxHint.knoxColorType);
+                        hintPaths.Add(cell);
+                    }
+                }
+
+                if (!hintDict.ContainsKey(knoxHint.knoxColorType))
+                    hintDict[knoxHint.knoxColorType] = hintPaths;
+            }
         }
 
         Debug.Log($"Load {levelSO.name} successfully");

@@ -19,8 +19,10 @@ MonoBehaviour:
     m_Items: []
   m_TableData:
   - m_Id: 38873374720
-    m_Localized: "K\xE9o chu\u1ED9t \u0111\u1EC3 n\u1ED1i t\u1EA5t c\u1EA3 c\xE1c
-      c\u1EB7p Knox \u0111\u1EC3 ho\xE0n th\xE0nh m\xE0n ch\u01A1i."
+    m_Localized: "- K\xE9o chu\u1ED9t \u0111\u1EC3 n\u1ED1i t\u1EA5t c\u1EA3 c\xE1c
+      c\u1EB7p Knox \u0111\u1EC3 ho\xE0n th\xE0nh m\xE0n ch\u01A1i.\r\n- M\u1ED7i
+      m\xE0n ch\u01A1i s\u1EBD c\xF3 1 l\u1EA7n \u0111\u01B0\u1EE3c d\xF9ng g\u1EE3i
+      \xFD."
     m_Metadata:
       m_Items: []
   - m_Id: 5075673088
@@ -28,8 +30,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 137036865536
-    m_Localized: "Vu\u1ED1t \u0111\u1EC3 n\u1ED1i t\u1EA5t c\u1EA3 c\xE1c c\u1EB7p
-      Knox \u0111\u1EC3 ho\xE0n th\xE0nh m\xE0n ch\u01A1i."
+    m_Localized: "- Vu\u1ED1t \u0111\u1EC3 n\u1ED1i t\u1EA5t c\u1EA3 c\xE1c c\u1EB7p
+      Knox \u0111\u1EC3 ho\xE0n th\xE0nh m\xE0n ch\u01A1i.\r\n- M\u1ED7i m\xE0n ch\u01A1i
+      s\u1EBD c\xF3 1 l\u1EA7n \u0111\u01B0\u1EE3c d\xF9ng g\u1EE3i \xFD."
     m_Metadata:
       m_Items: []
   references:
