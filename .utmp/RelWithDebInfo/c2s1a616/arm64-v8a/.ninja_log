@@ -1,12 +1,12 @@
 # ninja log v5
-92	580	8114175721957300	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	234ac09e58e76def
-585	861	8114175725073474	D:/Workspace/Knox Flow/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/c2s1a616/obj/arm64-v8a/libswappywrapper.so	c01cb24e0100432b
-80	1238	8114175728979335	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	2b3f5e9d42663f6c
-36	1243	8114175728996234	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	c853c56f79f1329e
-1	1277	8114175729092569	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	e44b78d3b57f708
-55	1283	8114175729347341	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	23a4045d412024a0
-29	1329	8114175729939547	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	ad1b22b62ac263a4
-68	1482	8114175731399790	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	423834149cb8dc98
-44	1532	8114175731976800	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	d1888fe769bd6ab2
-18	1626	8114175732887721	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	7e7274ff2e5b005b
-1627	1734	8114175734049862	D:/Workspace/Knox Flow/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/c2s1a616/obj/arm64-v8a/libgame.so	c7fbbfb27b8102c5
+83	484	8115205586849777	FramePacing/CMakeFiles/swappywrapper.dir/UnitySwappyWrapper.cpp.o	234ac09e58e76def
+486	764	8115205589338214	D:/Workspace/Knox Flow/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/c2s1a616/obj/arm64-v8a/libswappywrapper.so	c01cb24e0100432b
+37	1844	8115205600392205	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	c853c56f79f1329e
+53	1848	8115205600427509	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	2b3f5e9d42663f6c
+30	1874	8115205600733666	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	e44b78d3b57f708
+72	1875	8115205600733666	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	23a4045d412024a0
+15	1925	8115205601216910	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	ad1b22b62ac263a4
+43	2103	8115205603008533	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	d1888fe769bd6ab2
+61	2146	8115205603446105	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	423834149cb8dc98
+2	2208	8115205603972883	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	7e7274ff2e5b005b
+2208	2289	8115205604910723	D:/Workspace/Knox Flow/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/c2s1a616/obj/arm64-v8a/libgame.so	c7fbbfb27b8102c5
